@@ -69,9 +69,9 @@ def load_central_arguments(self, _):
         )
         context.argument(
             "summarize_registration",
-            options_list=["--registrationsummary", "-s"],
+            options_list=["--registrationsummary", "--rs"],
             arg_type=get_three_state_flag(),
-            help="Add this flag to get a summary of registration",
+            help="Add this flag to get a summary of registration information",
         )
         context.argument(
             "max_devices",

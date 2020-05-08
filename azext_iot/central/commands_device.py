@@ -69,7 +69,7 @@ def registration_info(
     token=None,
     central_dns_suffix="azureiotcentral.com",
     device_status=None,
-    max_devices="13",
+    max_devices="3",
     summarize_registration=False,
 ):
     provider = CentralDeviceProvider(cmd=cmd, app_id=app_id, token=token,)
