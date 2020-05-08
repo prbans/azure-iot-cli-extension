@@ -9,6 +9,7 @@ from knack.log import get_logger
 from azext_iot.central import services as central_services
 from azext_iot.dps.services import global_service as dps_global_service
 from azext_iot.central.models.enum import DeviceStatus
+import json
 
 logger = get_logger(__name__)
 
@@ -259,3 +260,30 @@ class CentralDeviceProvider:
         ]
 
         return result
+
+    def get_registration_summary(self, central_dns_suffix="azureiotcentral.com"):
+        registration_info_complete = self.get_all_registration_info(
+            device_status=None, central_dns_suffix=central_dns_suffix
+        )
+        registration_summary = {}
+
+        for device in registration_info_complete:
+            device_info = device.get("device_info")
+            if device_info:
+                device_status = device_info.get("deviceStatus")
+                registration_summary[device_status] = (
+                    registration_summary.get(device_status, 0) + 1
+                )
+
+        return registration_summary
+
+    def print_limited_devices(self, devices_to_display, device_collection):
+        import six
+
+        count = len(device_collection)
+        for device in device_collection:
+            dumps = json.dumps(device, indent=4)
+            six.print_(dumps, flush=True)
+            count -= 1
+            if (count % devices_to_display) == 0 and count > 0:
+                input("Press Enter to view more devices...\n")
