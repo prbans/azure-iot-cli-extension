@@ -36,6 +36,14 @@ class CentralDeviceProvider:
         self._device_credentials = {}
         self._device_registration_info = {}
 
+    def get_device_essential_info(
+        self, device_id, central_dns_suffix="azureiotcentral.com",
+    ) -> Device:
+        device = self.get_device(device_id, central_dns_suffix)
+        registration_info = device.get_device_registration_info()
+
+        return registration_info
+
     def get_device(
         self, device_id, central_dns_suffix="azureiotcentral.com",
     ) -> Device:
@@ -43,6 +51,7 @@ class CentralDeviceProvider:
             raise CLIError("Device id must be specified.")
         # get or add to cache
         device = self._devices.get(device_id)
+
         if not device:
             device = central_services.device.get_device(
                 cmd=self._cmd,
@@ -181,8 +190,12 @@ class CentralDeviceProvider:
         if info:
             return info
 
-        device = self.get_device(device_id)
-        if device.device_status == DeviceStatus.provisioned:
+        device_essential_info = self.get_device_essential_info(device_id)
+
+        if (
+            DeviceStatus(device_essential_info.get("device_status"))
+            == DeviceStatus.provisioned
+        ):
             credentials = self.get_device_credentials(
                 device_id=device_id, central_dns_suffix=central_dns_suffix
             )
@@ -191,11 +204,13 @@ class CentralDeviceProvider:
             dps_state = dps_global_service.get_registration_state(
                 id_scope=id_scope, key=key, device_id=device_id
             )
-        dps_state = self.dps_populate_essential_info(dps_state, device.device_status)
+        dps_state = self.dps_populate_essential_info(
+            dps_state, device_essential_info.get("device_status")
+        )
         info = {
             "@device_id": device_id,
             "dps_state": dps_state,
-            "device_info": device,
+            "device_info": device_essential_info,
         }
 
         self._device_registration_info[device_id] = info
@@ -231,7 +246,7 @@ class CentralDeviceProvider:
             filtered_devices = [
                 device
                 for device in real_devices
-                if device.device_status == device_status
+                if device.device_status == DeviceStatus(device_status)
             ]
 
         if len(devices) != len(filtered_devices):

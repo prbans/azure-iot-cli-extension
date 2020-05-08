@@ -67,3 +67,14 @@ def load_central_arguments(self, _):
             arg_type=get_enum_type(DeviceStatus),
             help="Indicates filter option for device status",
         )
+        context.argument(
+            "summarize_registration",
+            options_list=["--registrationsummary", "-s"],
+            arg_type=get_three_state_flag(),
+            help="Add this flag to get a summary of registration",
+        )
+        context.argument(
+            "max_devices",
+            options_list=["--maxdevices", "--md"],
+            help="This value sets the maximum numner of devices to be displayed in a single instance",
+        )

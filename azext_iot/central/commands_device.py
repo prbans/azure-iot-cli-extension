@@ -69,12 +69,28 @@ def registration_info(
     token=None,
     central_dns_suffix="azureiotcentral.com",
     device_status=None,
+    max_devices="13",
+    summarize_registration=False,
 ):
     provider = CentralDeviceProvider(cmd=cmd, app_id=app_id, token=token,)
     if not device_id:
-        return provider.get_all_registration_info(
+        if summarize_registration:
+            summary = provider.get_registration_summary(
+                central_dns_suffix=central_dns_suffix
+            )
+            return summary
+
+        device_collection = provider.get_all_registration_info(
             central_dns_suffix=central_dns_suffix, device_status=device_status
         )
+
+        if not len(device_collection) >= int(max_devices):
+            return device_collection
+
+        provider.print_limited_devices(
+            device_collection=device_collection, devices_to_display=int(max_devices),
+        )
+        return
 
     return provider.get_device_registration_info(
         device_id=device_id,
