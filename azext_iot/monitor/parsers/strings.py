@@ -35,8 +35,13 @@ def invalid_pnp_property_not_value_wrapped():
     raise NotImplementedError()
 
 
-def invalid_non_pnp_field_name_duplicate():
-    raise NotImplementedError()
+def invalid_non_pnp_field_name_duplicate(duplicate_fields: list):
+    return (
+        "More than one value provided for field names '{}'. "
+        "Please ensure each field name in the telemetry sent to IoT Central is unique.".format(
+            duplicate_fields
+        )
+    )
 
 
 def invalid_content_type(content_type: str):

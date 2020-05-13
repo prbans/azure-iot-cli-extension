@@ -23,7 +23,6 @@ def validate_messages(
     timeout=300,
     enqueued_time=None,
     repair=False,
-    properties=None,
     yes=False,
     max_messages=10,
     duration=300,
@@ -34,7 +33,7 @@ def validate_messages(
     telemetry_args = TelemetryArguments(
         cmd,
         timeout=timeout,
-        properties=properties,
+        properties=["all"],
         enqueued_time=enqueued_time,
         repair=repair,
         yes=yes,

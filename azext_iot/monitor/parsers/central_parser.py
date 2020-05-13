@@ -59,6 +59,7 @@ class CentralParser(CommonParser):
             return
 
         self._validate_field_names(payload=payload)
+        self._validate_no_duplicate_fields(payload=payload)
 
     def _validate_field_names(self, payload: dict):
         # source:
@@ -74,6 +75,21 @@ class CentralParser(CommonParser):
         if invalid_field_names:
             details = strings.invalid_field_name(invalid_field_names)
             self._add_issue(severity=Severity.warning, details=details)
+
+    def _validate_no_duplicate_fields(self, payload: dict):
+        # pnp devies can have duplicate field names
+        if self._is_pnp_device():
+            return
+
+        duplicate_fields = []
+        raw_payload = self._get_payload(self._message)
+        for key in payload.keys():
+            count = raw_payload.count('"{}":'.format(key))
+            if count > 1:
+                duplicate_fields.append(key)
+
+        details = strings.invalid_non_pnp_field_name_duplicate(duplicate_fields)
+        self._add_issue(severity=Severity.error, details=details)
 
     # Dynamic validations should need data external to the payload
     # e.g. device template
@@ -180,3 +196,7 @@ class CentralParser(CommonParser):
 
         # if the schema_type is not found above, suppress error
         return True
+
+    def _is_pnp_device(self):
+        interface_name = self._parse_interface_name(self._message, "", True)
+        return bool(interface_name)

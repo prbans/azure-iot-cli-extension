@@ -88,7 +88,9 @@ class CommonParser(AbstractBaseParser):
             self._add_issue(severity=Severity.error, details=details)
             return ""
 
-    def _parse_interface_name(self, message: Message, expected_interface_name) -> str:
+    def _parse_interface_name(
+        self, message: Message, expected_interface_name, suppress_warning=False
+    ) -> str:
         actual_interface_name = ""
 
         try:
@@ -99,7 +101,7 @@ class CommonParser(AbstractBaseParser):
             details = strings.invalid_interface_name_not_found()
             self._add_issue(severity=Severity.error, details=details)
 
-        if expected_interface_name != actual_interface_name:
+        if not suppress_warning and expected_interface_name != actual_interface_name:
             details = strings.invalid_interface_name_mismatch(
                 expected_interface_name, actual_interface_name
             )
@@ -163,11 +165,7 @@ class CommonParser(AbstractBaseParser):
             return {}
 
     def _parse_payload(self, message: Message, content_type):
-        payload = ""
-        data = message.get_data()
-
-        if data:
-            payload = str(next(data), "utf8")
+        payload = self._get_payload(message)
 
         if "application/json" not in content_type.lower():
             details = strings.invalid_content_type(content_type.lower())
@@ -180,5 +178,14 @@ class CommonParser(AbstractBaseParser):
             except Exception:
                 details = strings.invalid_json()
                 self._add_issue(severity=Severity.error, details=details)
+
+        return payload
+
+    def _get_payload(self, message):
+        payload = ""
+        data = message.get_data()
+
+        if data:
+            payload = str(next(data), "utf8")
 
         return payload
