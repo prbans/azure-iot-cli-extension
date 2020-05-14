@@ -221,7 +221,7 @@ class CentralDeviceProvider:
         error = {
             "provisioned": "None.",
             "registered": "Device is not yet provisioned.",
-            "blocked": "Device is blocked by admin.",
+            "blocked": "Device is not approved to connect to IoT Central application. Approve the device in IoT Central and retry. Learn more: https://aka.ms/iotcentral-docs-dps-SAS",
             "unassociated": "Device does not have a valid template associated with it.",
         }
 
