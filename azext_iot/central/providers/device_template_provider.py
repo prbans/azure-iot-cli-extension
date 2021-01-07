@@ -84,7 +84,10 @@ class CentralDeviceTemplateProvider:
         self, central_dns_suffix=CENTRAL_ENDPOINT,
     ):
         templates = central_services.device_template.list_device_templates(
-            cmd=self._cmd, app_id=self._app_id, token=self._token
+            cmd=self._cmd,
+            app_id=self._app_id,
+            token=self._token,
+            central_dns_suffix=central_dns_suffix,
         )
 
         self._device_templates.update({template.id: template for template in templates})
@@ -98,7 +101,10 @@ class CentralDeviceTemplateProvider:
         Maps each template name to the corresponding template id
         """
         templates = central_services.device_template.list_device_templates(
-            cmd=self._cmd, app_id=self._app_id, token=self._token
+            cmd=self._cmd,
+            app_id=self._app_id,
+            token=self._token,
+            central_dns_suffix=central_dns_suffix,
         )
         return {template.name: template.id for template in templates}
 
