@@ -76,7 +76,7 @@ def delete_device_template(
     )
 
 
-def get_device_template_schema_info(
+def get_device_template_capabilities(
     cmd,
     app_id: str,
     device_template_id: str,
@@ -84,7 +84,7 @@ def get_device_template_schema_info(
     central_dns_suffix=CENTRAL_ENDPOINT,
 ):
     provider = CentralDeviceTemplateProvider(cmd=cmd, app_id=app_id, token=token)
-    return provider.get_device_template_schema_info(
+    return provider.get_device_template_capabilities(
         device_template_id=device_template_id, central_dns_suffix=central_dns_suffix
     )
 

@@ -380,15 +380,15 @@ def _load_central_device_templates_help():
     """
 
     helps[
-        "iot central device-template schema"
+        "iot central device-template capabilities"
     ] = """
         type: command
-        short-summary: Gets schema information for all the capabilities under the template
+        short-summary: Gets the list of capabilities for the template
 
         examples:
-        - name: Get schema information for all the capabilities under the template
+        - name: Get all the capabilities listed under the template
           text: >
-            az iot central device-template schema
+            az iot central device-template capabilities
             --app-id {appid}
             --device-template-id {devicetemplateid}
     """

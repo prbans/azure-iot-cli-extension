@@ -102,7 +102,7 @@ def load_central_commands(self, _):
         cmd_group.show_command("show", "get_device_template")
         cmd_group.command("create", "create_device_template")
         cmd_group.command("delete", "delete_device_template")
-        cmd_group.command("schema", "get_device_template_schema_info")
+        cmd_group.command("capabilities", "get_device_template_capabilities")
 
     with self.command_group(
         "iot central device twin", command_type=central_device_twin_ops, is_preview=True

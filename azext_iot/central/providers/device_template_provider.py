@@ -51,7 +51,7 @@ class CentralDeviceTemplateProvider:
 
         return device_template
 
-    def get_device_template_schema_info(
+    def get_device_template_capabilities(
         self, device_template_id, central_dns_suffix=CENTRAL_ENDPOINT,
     ):
 
@@ -73,12 +73,12 @@ class CentralDeviceTemplateProvider:
                     device_template_id
                 )
             )
-        schema_list = {
+        capabilities = {
             **device_template.schema_names,
             **device_template.component_schema_names,
         }
 
-        return schema_list
+        return capabilities
 
     def list_device_templates(
         self, central_dns_suffix=CENTRAL_ENDPOINT,
