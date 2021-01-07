@@ -53,7 +53,7 @@ class Template:
 
                 if components:
                     return {
-                        component["name"]: self._extract_schemas(component)
+                        component["@id"]: self._extract_schemas(component)
                         for component in components
                     }
                 return {}

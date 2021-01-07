@@ -51,6 +51,35 @@ class CentralDeviceTemplateProvider:
 
         return device_template
 
+    def get_device_template_schema_info(
+        self, device_template_id, central_dns_suffix=CENTRAL_ENDPOINT,
+    ):
+
+        # get or add to cache
+        device_template = self._device_templates.get(device_template_id)
+        if not device_template:
+            device_template = central_services.device_template.get_device_template(
+                cmd=self._cmd,
+                app_id=self._app_id,
+                device_template_id=device_template_id,
+                token=self._token,
+                central_dns_suffix=central_dns_suffix,
+            )
+            self._device_templates[device_template_id] = device_template
+
+        if not device_template:
+            raise CLIError(
+                "No device template for device template with id: '{}'.".format(
+                    device_template_id
+                )
+            )
+        schema_list = {
+            **device_template.schema_names,
+            **device_template.component_schema_names,
+        }
+
+        return schema_list
+
     def list_device_templates(
         self, central_dns_suffix=CENTRAL_ENDPOINT,
     ):
