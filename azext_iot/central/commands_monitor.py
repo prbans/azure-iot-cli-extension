@@ -149,3 +149,21 @@ def validate_properties(
         central_dns_suffix=central_dns_suffix,
     )
     monitor.start_validate_property_monitor(Severity[minimum_severity])
+
+
+def query_data(
+    cmd,
+    query_string: str,
+    app_id: str,
+    token=None,
+    central_dns_suffix=CENTRAL_ENDPOINT,
+    minimum_severity=Severity.warning.name,
+):
+    monitor = PropertyMonitor(
+        cmd=cmd,
+        app_id=app_id,
+        device_id=app_id,
+        token=token,
+        central_dns_suffix=central_dns_suffix,
+    )
+    return monitor.query_data(query_string=query_string)

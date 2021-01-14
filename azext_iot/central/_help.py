@@ -579,6 +579,18 @@ def _load_central_monitors_help():
         """
 
     helps[
+        "iot central diagnostics query-data"
+    ] = """
+            type: command
+            short-summary: Query telemetry using a powerful SQL-like language.
+            long-summary: Query device telemetry using a powerful SQL-like language to retrieve information
+            examples:
+            - name: Query testInt data from capability dtmi:custom1hfcvyc0u80:testLkvTemplate44y;4
+              text: >
+                az iot central diagnostics query-data -q "SELECT testInt  FROM dtmi:custom1hfcvyc0u80:testLkvTemplate44y;4 WHERE testInt != 0"
+        """
+
+    helps[
         "iot central device twin"
     ] = """
         type: group

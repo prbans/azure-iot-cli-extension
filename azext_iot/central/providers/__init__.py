@@ -11,6 +11,7 @@ from azext_iot.central.providers.device_template_provider import (
 from azext_iot.central.providers.devicetwin_provider import CentralDeviceTwinProvider
 from azext_iot.central.providers.user_provider import CentralUserProvider
 from azext_iot.central.providers.api_token_provider import CentralApiTokenProvider
+from azext_iot.central.providers.query_provider import CentralQueryProvider
 
 __all__ = [
     "CentralDeviceProvider",
@@ -18,4 +19,5 @@ __all__ = [
     "CentralDeviceTwinProvider",
     "CentralUserProvider",
     "CentralApiTokenProvider",
+    "CentralQueryProvider",
 ]

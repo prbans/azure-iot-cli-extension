@@ -21,6 +21,7 @@ from azext_iot.central.providers import (
     CentralDeviceProvider,
     CentralDeviceTemplateProvider,
     CentralDeviceTwinProvider,
+    CentralQueryProvider,
 )
 from azext_iot.monitor.parsers.issue import IssueHandler
 
@@ -51,7 +52,10 @@ class PropertyMonitor:
         self._central_template_provider = CentralDeviceTemplateProvider(
             cmd=self._cmd, app_id=self._app_id, token=self._token
         )
-        self._template = self._get_device_template()
+        self._template = ""  # self._get_device_template()
+        self._query_provider = CentralQueryProvider(
+            cmd=cmd, app_id=self._app_id, token=self._token
+        )
 
     def _compare_properties(self, prev_prop: Property, prop: Property):
         if prev_prop.version == prop.version:
@@ -166,6 +170,13 @@ class PropertyMonitor:
             central_dns_suffix=self._central_dns_suffix,
         )
         return template
+
+    def query_data(self, query_string: str):
+
+        result = self._query_provider.query(
+            query_string=query_string, central_dns_suffix=self._central_dns_suffix
+        )
+        return result
 
     def start_property_monitor(self,):
         prev_twin = None

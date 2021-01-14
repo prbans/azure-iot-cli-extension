@@ -45,7 +45,7 @@ def load_central_arguments(self, _):
             "app_id",
             options_list=["--app-id", "-n"],
             help="The App ID of the IoT Central app you want to manage."
-            " You can find the App ID in the \"About\" page for your application under the help menu."
+            ' You can find the App ID in the "About" page for your application under the help menu.',
         )
         context.argument(
             "token",
@@ -175,6 +175,9 @@ def load_central_arguments(self, _):
         context.argument("role", arg_type=role_type)
 
     with self.argument_context("iot central diagnostics") as context:
+        context.argument(
+            "query_string", options_list=["-q"], help="query string",
+        )
         context.argument("timeout", arg_type=event_timeout_type)
         context.argument("properties", arg_type=event_msg_prop_type)
         context.argument("minimum_severity", arg_type=severity_type)
@@ -194,5 +197,8 @@ def load_central_arguments(self, _):
             "Use 0 for infinity.",
         )
         context.argument(
-            "module_id", options_list=["--module-id", "-m"], help="Provide IoT Edge Module ID if the device type is IoT Edge.",
+            "module_id",
+            options_list=["--module-id", "-m"],
+            help="Provide IoT Edge Module ID if the device type is IoT Edge.",
         )
+

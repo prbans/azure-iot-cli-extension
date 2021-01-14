@@ -51,6 +51,9 @@ def load_central_commands(self, _):
         cmd_group.command(
             "validate-properties", "validate_properties",
         )
+        cmd_group.command(
+            "query-data", "query_data",
+        )
 
     with self.command_group(
         "iot central diagnostics", command_type=central_device_ops, is_preview=True
