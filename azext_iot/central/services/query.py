@@ -42,5 +42,5 @@ def query(
 
     headers = _utility.get_headers(token, cmd, has_json_payload=True)
 
-    response = requests.get(url, headers=headers, json=payload)
+    response = requests.post(url, headers=headers, json=payload)
     return _utility.try_extract_result(response)
