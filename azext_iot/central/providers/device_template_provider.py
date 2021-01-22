@@ -73,10 +73,15 @@ class CentralDeviceTemplateProvider:
                     device_template_id
                 )
             )
-        capabilities = {
-            **device_template.schema_names,
-            **device_template.component_schema_names,
-        }
+        if device_template.components:
+            capabilities = {
+                **device_template.schema_names,
+                **device_template.component_schema_names,
+            }
+        else:
+            capabilities = {
+                **device_template.schema_names,
+            }
 
         return capabilities
 
